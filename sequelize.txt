@@ -8,3 +8,7 @@ npx sequelize-cli model:generate --name BannerDetail --attributes product_id:int
 npx sequelize-cli model:generate --name Product --attributes name:string,price:integer,oldprice:integer,image:text,description:text,specification:text,buyturn:integer,quantity:integer,brand_id:integer,category_id:integer
 
 
+npx sequelize-cli db:migrate
+
+SELECT * FROM information_schema.table_constraints
+WHERE table_schema = 'shop_app' AND table_name = 'orders';
