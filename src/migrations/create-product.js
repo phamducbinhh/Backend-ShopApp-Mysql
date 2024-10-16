@@ -35,7 +35,6 @@ module.exports = {
       },
       brand_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: 'brands', // tên bảng tham chiếu
           key: 'id',      // khóa chính của bảng tham chiếu
@@ -45,7 +44,6 @@ module.exports = {
       },
       category_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: 'categories', // tên bảng tham chiếu
           key: 'id',      // khóa chính của bảng tham chiếu
