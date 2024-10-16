@@ -24,11 +24,12 @@ class ProductService {
     }
   }
 
-  async inSertProductSerivce() {
+  async inSertProductSerivce({ body }: { body: any }) {
     try {
       return {
         success: true,
-        message: 'Thêm mới sản phẩm thành công'
+        message: 'Thêm mới sản phẩm thành công',
+        data: body
       }
     } catch (error: any) {
       throw new Error(error.message)

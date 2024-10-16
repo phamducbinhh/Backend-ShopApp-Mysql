@@ -40,7 +40,7 @@ class OrderController {
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
-      return res.status(HttpStatusCode.SUCCESS).json(response)
+      return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {
       return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         success: false,

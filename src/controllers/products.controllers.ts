@@ -35,11 +35,13 @@ class ProductController {
 
   async inSertProduct(req: any, res: any) {
     try {
-      const response = await ProductService.inSertProductSerivce()
+      const response = await ProductService.inSertProductSerivce({
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
-      return res.status(HttpStatusCode.SUCCESS).json(response)
+      return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {
       return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
         success: false,
