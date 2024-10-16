@@ -1,0 +1,2 @@
+npx sequelize-cli model:generate --name News --attributes name:string,image:text,content:text
+npx sequelize-cli model:generate --name Banner --attributes name:string,image:text,status:integer
