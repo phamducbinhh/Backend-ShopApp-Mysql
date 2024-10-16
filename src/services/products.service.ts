@@ -26,11 +26,14 @@ class ProductService {
 
   async inSertProductSerivce({ body }: { body: any }) {
     try {
+      const data = await db.Product.create(body);
+
       return {
         success: true,
         message: 'Thêm mới sản phẩm thành công',
-        data: body
-      }
+        data
+      };
+      
     } catch (error: any) {
       throw new Error(error.message)
     }
