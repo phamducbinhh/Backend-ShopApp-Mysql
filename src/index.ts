@@ -3,6 +3,7 @@ const { connectDatabase } = require('./config/connectDatabase')
 const cors = require('cors')
 const app = express()
 const cookieParser = require('cookie-parser')
+const initRoutes = require('./routes')
 require('dotenv').config()
 
 app.use(
@@ -16,6 +17,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(express.urlencoded({ extended: true }))
+
+initRoutes(app)
 
 const startServer = async () => {
   try {
