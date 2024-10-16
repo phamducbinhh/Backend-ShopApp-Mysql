@@ -14,6 +14,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Product.hasMany(models.OrderDetail, { foreignKey: 'product_id' })
       Product.hasMany(models.BannerDetail, { foreignKey: 'product_id' })
       Product.hasMany(models.NewsDetail, { foreignKey: 'product_id' })
+      Product.hasMany(models.Feedback, { foreignKey: 'product_id' })
     }
   }
   Product.init(
