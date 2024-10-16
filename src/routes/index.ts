@@ -10,7 +10,7 @@ const initRoutes = (app: any): void => {
   app.use('/api/v1/categories', categoryRouter)
   app.use('/api/v1/brands', brandRouter)
   app.use('/api/v1/orders', orderRouter)
-  app.use('/api/v1/orderDetails', orderDetailRouter)
+  app.use('/api/v1/order-details', orderDetailRouter)
 }
 
 module.exports = initRoutes
