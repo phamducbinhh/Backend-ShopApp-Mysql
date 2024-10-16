@@ -11,6 +11,7 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'users', // tên bảng tham chiếu
           key: 'id',      // khóa chính của bảng tham chiếu

@@ -9,6 +9,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
      */
     static associate(models: any) {
       // define association here
+      Banner.hasMany(models.BannerDetail, { foreignKey: 'banner_id' })
     }
   }
   Banner.init(

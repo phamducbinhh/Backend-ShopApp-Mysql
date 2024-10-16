@@ -9,6 +9,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
      */
     static associate(models: any) {
       // define association here
+      News.hasMany(models.NewsDetail, { foreignKey: 'news_id' })
     }
   }
   News.init(

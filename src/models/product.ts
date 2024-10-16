@@ -11,6 +11,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
       // define association here
       Product.belongsTo(models.Category, { foreignKey: 'category_id' })
       Product.belongsTo(models.Brand, { foreignKey: 'brand_id' })
+      Product.hasMany(models.OrderDetail, { foreignKey: 'product_id' })
+      Product.hasMany(models.BannerDetail, { foreignKey: 'product_id' })
+      Product.hasMany(models.NewsDetail, { foreignKey: 'product_id' })
     }
   }
   Product.init(
