@@ -1,5 +1,6 @@
 const { OrderDetailService } = require('../services')
 const HttpStatusCode = require('../constants/HttpStatusCode')
+const handleError = require('../utils/utility')
 
 class OrderDetailController {
   constructor() {}
@@ -12,10 +13,7 @@ class OrderDetailController {
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: error.message
-      })
+      return handleError(res, error)
     }
   }
 
@@ -27,10 +25,7 @@ class OrderDetailController {
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: error.message
-      })
+      return handleError(res, error)
     }
   }
 
@@ -42,10 +37,7 @@ class OrderDetailController {
 
       return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: error.message
-      })
+      return handleError(res, error)
     }
   }
 
@@ -57,10 +49,7 @@ class OrderDetailController {
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: error.message
-      })
+      return handleError(res, error)
     }
   }
 
@@ -72,10 +61,7 @@ class OrderDetailController {
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: error.message
-      })
+      return handleError(res, error)
     }
   }
 }
