@@ -13,7 +13,7 @@ class CategoryService {
       throw new Error(error.message)
     }
   }
-  
+
   async getCategoryByIdService() {
     try {
       return {
@@ -27,10 +27,22 @@ class CategoryService {
 
   async insertCategoryService({ body }: { body: any }) {
     try {
+      const [data, created] = await db.Category.findOrCreate({
+        where: { name: body.name },
+        defaults: body
+      })
+
+      if (!created) {
+        return {
+          success: false,
+          message: 'Tên danh mục đã tồn tại'
+        }
+      }
+
       return {
         success: true,
         message: 'Thêm mới danh mục thành công',
-        data: body
+        data: data
       }
     } catch (error: any) {
       throw new Error(error.message)

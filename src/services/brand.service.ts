@@ -27,10 +27,22 @@ class BrandService {
 
   async insertBrandService({ body }: { body: any }) {
     try {
+      const [data, created] = await db.Brand.findOrCreate({
+        where: { name: body.name },
+        defaults: body
+      })
+
+      if (!created) {
+        return {
+          success: false,
+          message: 'Tên thương hiệu đã tồn tại'
+        }
+      }
+
       return {
         success: true,
         message: 'Thêm mới thương hiệu thành công',
-        data: body
+        data: data
       }
     } catch (error: any) {
       throw new Error(error.message)
