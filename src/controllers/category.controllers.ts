@@ -36,7 +36,9 @@ class CategoryController {
 
   async insertCategory(req: any, res: any) {
     try {
-      const response = await CategoryService.insertCategoryService()
+      const response = await CategoryService.insertCategoryService({
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 

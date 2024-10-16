@@ -25,11 +25,12 @@ class CategoryService {
     }
   }
 
-  async insertCategoryService() {
+  async insertCategoryService({ body }: { body: any }) {
     try {
       return {
         success: true,
-        message: 'Thêm mới danh mục thành công'
+        message: 'Thêm mới danh mục thành công',
+        data: body
       }
     } catch (error: any) {
       throw new Error(error.message)

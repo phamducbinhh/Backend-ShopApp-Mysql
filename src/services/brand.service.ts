@@ -25,11 +25,12 @@ class BrandService {
     }
   }
 
-  async insertBrandService() {
+  async insertBrandService({ body }: { body: any }) {
     try {
       return {
         success: true,
-        message: 'Thêm mới thương hiệu thành công'
+        message: 'Thêm mới thương hiệu thành công',
+        data: body
       }
     } catch (error: any) {
       throw new Error(error.message)

@@ -36,7 +36,9 @@ class BrandController {
 
   async insertBrand(req: any, res: any) {
     try {
-      const response = await BrandService.insertBrandService()
+      const response = await BrandService.insertBrandService({
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
