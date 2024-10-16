@@ -20,8 +20,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
     role: DataTypes.INTEGER,
     avatar: DataTypes.STRING,
     phone: DataTypes.INTEGER,
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'User',
