@@ -12,7 +12,7 @@ class NewService {
     try {
       const { rows, count } = await db.News.findAndCountAll({
         where: {
-          name: {
+          title: {
             [db.Sequelize.Op.like]: `%${search}%`
           }
         },
