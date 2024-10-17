@@ -5,7 +5,7 @@ class NewService {
 
   async getNewService(req: any) {
     const page = parseInt(req.query.page || 1)
-    const limit = parseInt(req.query.limit || 5)
+    const limit = parseInt(req.query.limit || 10)
     const offset = (page - 1) * limit
     const search = req.query.search || ''
 
@@ -56,18 +56,53 @@ class NewService {
   }
 
   async insertNewService({ body }: { body: any }) {
+    const transaction = await db.sequelize.transaction() // Bắt đầu transaction
     try {
-      const [data, created] = await db.News.findOrCreate({
-        where: { title: body.title },
-        defaults: body
-      })
+      const { product_ids } = body
+
+      // Tạo bản ghi tin tức mới trong bảng News
+      const response = await db.News.create(body, { transaction })
+
+      // Kiểm tra nếu có danh sách sản phẩm liên quan
+      if (product_ids && product_ids.length > 0) {
+        // Tìm tất cả sản phẩm có trong danh sách product_ids
+        const validProducts = await db.Product.findAll({
+          where: {
+            id: {
+              [db.Sequelize.Op.in]: product_ids // Kiểm tra danh sách ID sản phẩm
+            }
+          }
+        })
+
+        // Lấy danh sách ID sản phẩm hợp lệ
+        const validProductsIds = validProducts.map((product: any) => product.id)
+
+        // Chỉ giữ lại những sản phẩm có id hợp lệ
+        const filteredProductsIds = product_ids.filter((id: any) => validProductsIds.includes(id))
+
+        // Tạo bản ghi trong bảng NewsDetail cho các sản phẩm hợp lệ
+        const newsDetailsPromise = filteredProductsIds.map((id: any) =>
+          db.NewsDetail.create(
+            {
+              news_id: response.id,
+              product_id: id
+            },
+            { transaction }
+          )
+        )
+        // Chờ tất cả bản ghi NewsDetail được tạo
+        await Promise.all(newsDetailsPromise)
+      }
+
+      await transaction.commit() // Commit transaction nếu tất cả thành công
 
       return {
-        success: created,
-        message: created ? 'Đã thêm tin tức thành công' : 'Đã tồn tại tiêu đề tin tức',
-        data: created ? data : null
+        success: true,
+        message: 'Tin tức đã được thêm thành công',
+        data: response
       }
     } catch (error: any) {
+      await transaction.rollback() // Rollback transaction nếu có lỗi
       throw new Error(error.message)
     }
   }
