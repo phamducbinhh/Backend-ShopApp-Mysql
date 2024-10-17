@@ -2,9 +2,9 @@ const express = require('express')
 
 const { ProductController } = require('../controllers')
 
-const ProductInsertSchema = require('../schema/productSchema')
+const ProductInsertSchema = require('../schema/product/productSchema')
 
-const ProductUpdateSchema = require('../schema/productUpdateSchema')
+const ProductUpdateSchema = require('../schema/product/productUpdateSchema')
 
 const validate = require('../middlewares/validate')
 
