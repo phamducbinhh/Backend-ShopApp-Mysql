@@ -5,9 +5,15 @@ class CategoryService {
 
   async getCategoryService() {
     try {
+      const response = await db.Category.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        raw: true
+      })
+
       return {
-        success: true,
-        message: 'Lấy danh mục thành công'
+        success: response ? true : false,
+        message: response ? 'Lấy danh mục thành công' : 'Lấy danh mục thất bại',
+        data: response ? response : null
       }
     } catch (error: any) {
       throw new Error(error.message)

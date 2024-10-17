@@ -5,9 +5,15 @@ class BrandService {
 
   async getBrandService() {
     try {
+      const response = await db.Brand.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        raw: true
+      })
+
       return {
-        success: true,
-        message: 'Lấy thương hiệu thành công'
+        success: response ? true : false,
+        message: response ? 'Lấy thương hiệu thành công' : 'Lấy thương hiệu thất bại',
+        data: response ? response : null
       }
     } catch (error: any) {
       throw new Error(error.message)
