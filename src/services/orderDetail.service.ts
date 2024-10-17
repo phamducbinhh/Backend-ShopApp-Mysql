@@ -3,55 +3,99 @@ const db = require('../models')
 class OrderDetailService {
   constructor() {}
 
-  async getOrderDetailService() {
+  async getOrderDetailService(req: any) {
+    const page = parseInt(req.query.page || 1)
+    const limit = parseInt(req.query.limit || 5)
+    const offset = (page - 1) * limit
+    const search = req.query.search || ''
+
     try {
+      const { rows, count } = await db.OrderDetail.findAndCountAll({
+        where: {
+          order_id: {
+            [db.Sequelize.Op.like]: `%${search}%`
+          }
+        },
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        limit,
+        offset,
+        raw: true
+      })
+
       return {
-        success: true,
-        message: 'Lấy chi tiết đơn hàng thành công'
+        success: rows.length > 0,
+        message: rows.length > 0 ? 'Lấy chi tiết đơn hàng thành công' : 'Không tìm thấy chi tiết đơn hàng',
+        data: {
+          totalItems: count,
+          itemsPerPage: limit,
+          currentPage: page,
+          totalPages: Math.ceil(count / limit),
+          items: rows
+        }
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async getOrderDetailByIdService() {
+  async getOrderDetailByIdService({ id }: { id: string }) {
     try {
+      const response = await db.OrderDetail.findByPk(id, {
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        raw: true
+      })
+
       return {
-        success: true,
-        message: 'Lấy thông tin chi tiết đơn hàng thành công'
+        success: response ? true : false,
+        message: response ? 'Lấy thông tin chi tiết đơn hàng thành công' : 'Không tồn tại chi tiết đơn hàng này',
+        data: response ? response : null
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async insertOrderDetailService() {
+  async insertOrderDetailService({ body }: { body: any }) {
     try {
+      const [data, created] = await db.OrderDetail.findOrCreate({
+        where: { name: body.name },
+        defaults: body
+      })
+
       return {
-        success: true,
-        message: 'Thêm mới chi tiết đơn hàng thành công'
+        success: created,
+        message: created ? 'Thêm mới chi tiết đơn hàng thành công' : 'Chi tiết đơn hàng đã tồn tại',
+        data: created ? data : null
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async updateOrderDetailService() {
+  async updateOrderDetailService({ id, body }: { id: string; body: any }) {
     try {
+      const response = await db.OrderDetail.update(body, {
+        where: { id }
+      })
+
       return {
-        success: true,
-        message: 'Sửa chi tiết đơn hàng thành công'
+        success: response[0] > 0,
+        message: response[0] > 0 ? 'Sửa chi tiết đơn hàng thành công' : 'Chi tiết đơn hàng không tồn tại'
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async deleteOrderDetailService() {
+  async deleteOrderDetailService({ id }: { id: string }) {
     try {
+      const response = await db.OrderDetail.destroy({
+        where: { id }
+      })
+
       return {
-        success: true,
-        message: 'Xóa chi tiết đơn hàng thành công'
+        success: response > 0,
+        message: response > 0 ? 'Xóa chi tiết đơn hàng thành công' : 'Không tìm thấy chi tiết đơn hàng để xóa'
       }
     } catch (error: any) {
       throw new Error(error.message)

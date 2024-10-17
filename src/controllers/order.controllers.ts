@@ -7,7 +7,7 @@ class OrderController {
 
   async getOrders(req: any, res: any) {
     try {
-      const response = await OrderService.getOrderService()
+      const response = await OrderService.getOrderService(req)
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
@@ -19,7 +19,7 @@ class OrderController {
 
   async getOrderById(req: any, res: any) {
     try {
-      const response = await OrderService.getOrderByIdService()
+      const response = await OrderService.getOrderByIdService({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
@@ -31,7 +31,7 @@ class OrderController {
 
   async insertOrder(req: any, res: any) {
     try {
-      const response = await OrderService.insertOrderService()
+      const response = await OrderService.insertOrderService({ body: req.body })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
@@ -43,7 +43,10 @@ class OrderController {
 
   async updateOrder(req: any, res: any) {
     try {
-      const response = await OrderService.updateOrderService()
+      const response = await OrderService.updateOrderService({
+        id: req.params.id,
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
@@ -55,7 +58,7 @@ class OrderController {
 
   async deleteOrder(req: any, res: any) {
     try {
-      const response = await OrderService.deleteOrderService()
+      const response = await OrderService.deleteOrderService({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
