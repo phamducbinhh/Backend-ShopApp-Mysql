@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-class ProductSchema {
+class ProductInsertSchema {
   name: string
   image: string
   price: string | number
@@ -43,4 +43,4 @@ class ProductSchema {
   }
 }
 
-module.exports = ProductSchema
+module.exports = ProductInsertSchema
