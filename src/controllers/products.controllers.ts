@@ -19,7 +19,7 @@ class ProductController {
 
   async getProductById(req: any, res: any) {
     try {
-      const response = await ProductService.getProductByIdSerivce()
+      const response = await ProductService.getProductByIdSerivce({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
@@ -35,7 +35,7 @@ class ProductController {
         body: req.body
       })
 
-      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+      if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
       return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {
@@ -47,7 +47,7 @@ class ProductController {
     try {
       const response = await ProductService.updateProductSerivce()
 
-      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+      if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {

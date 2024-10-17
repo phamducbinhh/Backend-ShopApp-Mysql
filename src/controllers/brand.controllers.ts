@@ -35,7 +35,7 @@ class BrandController {
         body: req.body
       })
 
-      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+      if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
       return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {
@@ -47,7 +47,7 @@ class BrandController {
     try {
       const response = await BrandService.updateBrandService()
 
-      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+      if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {
