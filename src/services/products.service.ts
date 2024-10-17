@@ -5,9 +5,14 @@ class ProductService {
 
   async getProductSerivce() {
     try {
+      const response = await db.Product.findAll({
+        raw: true
+      })
+
       return {
-        success: true,
-        message: 'Lấy sản phẩm thành công'
+        success: response ? true : false,
+        message: response ? 'Lấy sản phẩm thành công' : 'Lấy sản phẩm thất bại',
+        response
       }
     } catch (error: any) {
       throw new Error(error.message)
@@ -31,17 +36,10 @@ class ProductService {
         defaults: body
       })
 
-      if (!created) {
-        return {
-          success: false,
-          message: 'Đã tồn tại tên sản phẩm'
-        }
-      }
-
       return {
-        success: true,
-        message: 'Thêm mới sản phẩm thành công',
-        data
+        success: created ? true : false,
+        message: created ? 'Đã thêm sản phẩm thành công' : 'Đã tồn tại tên sản phẩm',
+        data: created ? data : null
       }
     } catch (error: any) {
       throw new Error(error.message)

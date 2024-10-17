@@ -32,17 +32,10 @@ class BrandService {
         defaults: body
       })
 
-      if (!created) {
-        return {
-          success: false,
-          message: 'Tên thương hiệu đã tồn tại'
-        }
-      }
-
       return {
-        success: true,
-        message: 'Thêm mới thương hiệu thành công',
-        data: data
+        success: created ? true : false,
+        message: created ? 'Đã thêm thương hiệu thành công' : 'Đã tồn tại tên thương hiệu',
+        data: created ? data : null
       }
     } catch (error: any) {
       throw new Error(error.message)

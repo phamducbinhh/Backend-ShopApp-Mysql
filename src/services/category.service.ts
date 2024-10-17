@@ -32,17 +32,10 @@ class CategoryService {
         defaults: body
       })
 
-      if (!created) {
-        return {
-          success: false,
-          message: 'Tên danh mục đã tồn tại'
-        }
-      }
-
       return {
-        success: true,
-        message: 'Thêm mới danh mục thành công',
-        data: data
+        success: created ? true : false,
+        message: created ? 'Đã thêm danh mục thành công' : 'Đã tồn tại tên danh mục',
+        data: created ? data : null
       }
     } catch (error: any) {
       throw new Error(error.message)
