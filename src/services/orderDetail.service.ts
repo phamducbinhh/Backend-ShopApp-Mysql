@@ -3,35 +3,17 @@ const db = require('../models')
 class OrderDetailService {
   constructor() {}
 
-  async getOrderDetailService(req: any) {
-    const page = parseInt(req.query.page || 1)
-    const limit = parseInt(req.query.limit || 5)
-    const offset = (page - 1) * limit
-    const search = req.query.search || ''
-
+  async getOrderDetailService() {
     try {
-      const { rows, count } = await db.OrderDetail.findAndCountAll({
-        where: {
-          order_id: {
-            [db.Sequelize.Op.like]: `%${search}%`
-          }
-        },
+      const response = await db.OrderDetail.findAll({
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        limit,
-        offset,
         raw: true
       })
 
       return {
-        success: rows.length > 0,
-        message: rows.length > 0 ? 'Lấy chi tiết đơn hàng thành công' : 'Không tìm thấy chi tiết đơn hàng',
-        data: {
-          totalItems: count,
-          itemsPerPage: limit,
-          currentPage: page,
-          totalPages: Math.ceil(count / limit),
-          items: rows
-        }
+        success: response.length > 0,
+        message: response.length > 0 ? 'Lấy chi tiết đơn hàng thành công' : 'Không có chi tiết đơn hàng nào',
+        data: response
       }
     } catch (error: any) {
       throw new Error(error.message)

@@ -4,36 +4,17 @@ class OrderService {
   constructor() {}
 
   // Phân trang và tìm kiếm đơn hàng
-  async getOrderService(req: any) {
-    const page = parseInt(req.query.page || 1)
-    const limit = parseInt(req.query.limit || 5)
-    const offset = (page - 1) * limit
-    const search = req.query.search || ''
-
+  async getOrderService() {
     try {
-      const { rows, count } = await db.Order.findAndCountAll({
-        where: {
-          // Ví dụ tìm kiếm theo trường 'orderNumber' hoặc 'customerName'
-          orderNumber: {
-            [db.Sequelize.Op.like]: `%${search}%`
-          }
-        },
+      const response = await db.Order.findAll({
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        limit,
-        offset,
         raw: true
       })
 
       return {
-        success: rows.length > 0,
-        message: rows.length > 0 ? 'Lấy đơn hàng thành công' : 'Không tìm thấy đơn hàng',
-        data: {
-          totalItems: count,
-          itemsPerPage: limit,
-          currentPage: page,
-          totalPages: Math.ceil(count / limit),
-          items: rows
-        }
+        success: response.length > 0,
+        message: response.length > 0 ? 'Lấy đơn hàng thành công' : 'Không có đơn hàng nào',
+        data: response
       }
     } catch (error: any) {
       throw new Error(error.message)

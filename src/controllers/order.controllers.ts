@@ -7,7 +7,7 @@ class OrderController {
 
   async getOrders(req: any, res: any) {
     try {
-      const response = await OrderService.getOrderService(req)
+      const response = await OrderService.getOrderService()
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
