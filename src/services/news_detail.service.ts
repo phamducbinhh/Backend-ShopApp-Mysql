@@ -13,12 +13,14 @@ class NewsDetailService {
         include: [
           {
             model: db.Product,
+            as: 'product',
             attributes: {
               exclude: ['createdAt', 'updatedAt', 'categoryId']
             }
           },
           {
             model: db.News,
+            as: 'news',
             attributes: {
               exclude: ['createdAt', 'updatedAt', 'categoryId']
             }
@@ -51,18 +53,20 @@ class NewsDetailService {
         include: [
           {
             model: db.Product,
+            as: 'product',
             attributes: {
               exclude: ['createdAt', 'updatedAt', 'categoryId']
             }
           },
           {
             model: db.News,
+            as: 'news',
             attributes: {
               exclude: ['createdAt', 'updatedAt', 'categoryId']
             }
           }
         ],
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
       })
 
       return {
