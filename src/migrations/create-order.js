@@ -13,10 +13,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'users', // tên bảng tham chiếu
-          key: 'id',      // khóa chính của bảng tham chiếu
+          key: 'id' // khóa chính của bảng tham chiếu
         },
         onUpdate: 'CASCADE', // Cập nhật khi giá trị khóa chính thay đổi
-        onDelete: 'SET NULL', // Đặt null nếu bản ghi người dùng bị xóa
+        onDelete: 'SET NULL' // Đặt null nếu bản ghi người dùng bị xóa
       },
       status: {
         type: Sequelize.INTEGER
