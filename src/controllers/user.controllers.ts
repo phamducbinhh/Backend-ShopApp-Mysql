@@ -35,7 +35,7 @@ class UserController {
         body: req.body
       })
 
-      if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
+      if (response.success === false) return res.status(HttpStatusCode.CONFLICT).json(response)
 
       return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {

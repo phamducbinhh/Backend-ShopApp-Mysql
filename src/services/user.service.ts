@@ -1,4 +1,6 @@
 const db = require('../models')
+const ResponseUser = require('../response/user/ResponseUser')
+const InsertUserSchema = require('../schema/user/insertUserSchema')
 
 class UserService {
   constructor() {}
@@ -13,7 +15,7 @@ class UserService {
         where: {
           [db.Sequelize.Op.or]: [
             {
-              username: {
+              name: {
                 [db.Sequelize.Op.like]: `%${search}%`
               }
             },
@@ -24,7 +26,7 @@ class UserService {
             }
           ]
         },
-        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }, // Giả sử bạn không muốn trả về mật khẩu
+        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
         limit,
         offset,
         raw: true
@@ -66,14 +68,14 @@ class UserService {
   async insertUserService({ body }: { body: any }) {
     try {
       const [data, created] = await db.User.findOrCreate({
-        where: { email: body.email }, // Kiểm tra tồn tại theo email
-        defaults: body
+        where: { email: body.email },
+        defaults: new InsertUserSchema(body)
       })
 
       return {
         success: created ? true : false,
         message: created ? 'Đã thêm người dùng thành công' : 'Đã tồn tại người dùng với email này',
-        data: created ? data : null
+        data: created ? new ResponseUser(data) : null
       }
     } catch (error: any) {
       throw new Error(error.message)

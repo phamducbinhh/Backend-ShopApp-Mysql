@@ -6,7 +6,8 @@ const HttpStatusCode = {
   FORBIDEN: 403, //Người dùng không có quyền truy cập vào tài nguyên yêu cầu.
   NOT_FOUND: 404, //Tài nguyên không được tìm thấy.
   UNPROCESSABLE_ENDTITY: 422, //Dữ liệu gửi lên không hợp lệ, nhưng không thuộc về lỗi 400 Bad Request.
-  INTERNAL_SERVER_ERROR: 500 //Lỗi server.
+  INTERNAL_SERVER_ERROR: 500, //Lỗi server.
+  CONFLICT: 409 //Tài nguyên đã tồn tại.
 }
 
 module.exports = HttpStatusCode

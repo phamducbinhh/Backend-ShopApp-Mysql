@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const bcrypt = require('bcrypt')
 
 class InsertUserSchema {
   email: string
@@ -10,11 +11,15 @@ class InsertUserSchema {
 
   constructor(data: any) {
     this.email = data.email
-    this.password = data.password
+    this.password = this.hashPassword(data.password)
     this.name = data.name
     this.role = data.role
     this.avatar = data.avatar
     this.phone = data.phone
+  }
+
+  hashPassword(password: string) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(12))
   }
 
   static validate(data: any) {
