@@ -4,5 +4,14 @@ const BrandService = require('./brand.service')
 const OrderService = require('./order.service')
 const OrderDetailService = require('./orderDetail.service')
 const UserService = require('./user.service')
+const NewService = require('./news.service')
 
-module.exports = { ProductService, CategoryService, BrandService, OrderService, OrderDetailService, UserService }
+module.exports = {
+  ProductService,
+  CategoryService,
+  BrandService,
+  OrderService,
+  OrderDetailService,
+  UserService,
+  NewService
+}

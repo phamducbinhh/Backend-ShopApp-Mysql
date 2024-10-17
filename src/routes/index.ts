@@ -4,6 +4,7 @@ const brandRouter = require('./brand.routes')
 const orderRouter = require('./order.routes')
 const orderDetailRouter = require('./orderDetail.routes')
 const userRouter = require('./user.routes')
+const newsRouter = require('./news.routes')
 
 const initRoutes = (app: any): void => {
   app.use('/api/v1/products', productRouter)
@@ -12,6 +13,7 @@ const initRoutes = (app: any): void => {
   app.use('/api/v1/orders', orderRouter)
   app.use('/api/v1/order-details', orderDetailRouter)
   app.use('/api/v1/user', userRouter)
+  app.use('/api/v1/news', newsRouter)
 }
 
 module.exports = initRoutes
