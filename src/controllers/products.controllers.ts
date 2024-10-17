@@ -1,6 +1,5 @@
 const { ProductService } = require('../services')
 const HttpStatusCode = require('../constants/HttpStatusCode')
-const ProductSchema = require('../schema/productSchema')
 const handleError = require('../utils/utility')
 
 class ProductController {
@@ -31,15 +30,6 @@ class ProductController {
   }
 
   async inSertProduct(req: any, res: any) {
-    const { error } = ProductSchema.validate(req.body)
-
-    if (error) {
-      return res.status(HttpStatusCode.BAD_REQUEST).json({
-        success: false,
-        message: error.details[0]?.message
-      })
-    }
-
     try {
       const response = await ProductService.inSertProductSerivce({
         body: req.body
