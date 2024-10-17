@@ -1,0 +1,113 @@
+const db = require('../models')
+
+class UserService {
+  constructor() {}
+
+  async getUserService(req: any) {
+    const page = parseInt(req.query.page || 1)
+    const limit = parseInt(req.query.limit || 5)
+    const offset = (page - 1) * limit
+    const search = req.query.search || ''
+    try {
+      const { rows, count } = await db.User.findAndCountAll({
+        where: {
+          [db.Sequelize.Op.or]: [
+            {
+              username: {
+                [db.Sequelize.Op.like]: `%${search}%`
+              }
+            },
+            {
+              email: {
+                [db.Sequelize.Op.like]: `%${search}%`
+              }
+            }
+          ]
+        },
+        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }, // Giả sử bạn không muốn trả về mật khẩu
+        limit,
+        offset,
+        raw: true
+      })
+
+      return {
+        success: rows ? true : false,
+        message: rows ? 'Lấy người dùng thành công' : 'Lấy người dùng thất bại',
+        data: {
+          totalItems: count,
+          itemsPerPage: limit,
+          currentPage: page,
+          totalPages: Math.ceil(count / limit),
+          items: rows
+        }
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+
+  async getUserByIdService({ id }: { id: string }) {
+    try {
+      const response = await db.User.findByPk(id, {
+        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
+        raw: true
+      })
+
+      return {
+        success: response ? true : false,
+        message: response ? 'Lấy thông tin người dùng thành công' : 'Không tồn tại người dùng này',
+        data: response ? response : null
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+
+  async insertUserService({ body }: { body: any }) {
+    try {
+      const [data, created] = await db.User.findOrCreate({
+        where: { email: body.email }, // Kiểm tra tồn tại theo email
+        defaults: body
+      })
+
+      return {
+        success: created ? true : false,
+        message: created ? 'Đã thêm người dùng thành công' : 'Đã tồn tại người dùng với email này',
+        data: created ? data : null
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+
+  async updateUserService({ id, body }: { id: string; body: any }) {
+    try {
+      const response = await db.User.update(body, {
+        where: { id }
+      })
+      return {
+        success: response[0] > 0,
+        message: response[0] > 0 ? 'Sửa người dùng thành công' : 'Người dùng không tồn tại'
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+
+  async deleteUserService({ id }: { id: string }) {
+    try {
+      const response = await db.User.destroy({
+        where: { id }
+      })
+
+      return {
+        success: response ? true : false,
+        message: response ? 'Xóa người dùng thành công' : 'Không tìm thấy người dùng để xóa'
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+}
+
+module.exports = new UserService()
