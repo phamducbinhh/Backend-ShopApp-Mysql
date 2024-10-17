@@ -5,6 +5,7 @@ const OrderService = require('./order.service')
 const OrderDetailService = require('./orderDetail.service')
 const UserService = require('./user.service')
 const NewService = require('./news.service')
+const NewsDetailService = require('./news_detail.service')
 
 module.exports = {
   ProductService,
@@ -13,5 +14,6 @@ module.exports = {
   OrderService,
   OrderDetailService,
   UserService,
-  NewService
+  NewService,
+  NewsDetailService
 }

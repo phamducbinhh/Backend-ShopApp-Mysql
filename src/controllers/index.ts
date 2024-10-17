@@ -5,6 +5,7 @@ const OrderController = require('./order.controllers')
 const OrderDetailController = require('./orderDetail.controllers')
 const UserController = require('./user.controllers')
 const NewsController = require('./news.controllers')
+const NewsDetailController = require('./news_detail.controllers')
 
 module.exports = {
   ProductController,
@@ -13,5 +14,6 @@ module.exports = {
   OrderController,
   OrderDetailController,
   UserController,
-  NewsController
+  NewsController,
+  NewsDetailController
 }
