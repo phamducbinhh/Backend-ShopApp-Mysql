@@ -7,7 +7,7 @@ class BrandController {
 
   async getBrands(req: any, res: any) {
     try {
-      const response = await BrandService.getBrandService()
+      const response = await BrandService.getBrandService(req)
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 

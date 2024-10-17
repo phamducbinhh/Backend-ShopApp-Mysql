@@ -7,7 +7,7 @@ class CategoryController {
 
   async getCategories(req: any, res: any) {
     try {
-      const response = await CategoryService.getCategoryService()
+      const response = await CategoryService.getCategoryService(req)
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
