@@ -45,7 +45,10 @@ class BrandController {
 
   async updateBrand(req: any, res: any) {
     try {
-      const response = await BrandService.updateBrandService()
+      const response = await BrandService.updateBrandService({
+        id: req.params.id,
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
@@ -57,7 +60,7 @@ class BrandController {
 
   async deleteBrand(req: any, res: any) {
     try {
-      const response = await BrandService.deleteBrandService()
+      const response = await BrandService.deleteBrandService({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 

@@ -82,7 +82,7 @@ class ProductService {
       })
       return {
         success: response[0] > 0,
-        message: response[0] > 0 ? 'Sửa sản phẩm thành công' : 'Sản phẩm không tồn tại',
+        message: response[0] > 0 ? 'Sửa sản phẩm thành công' : 'Sản phẩm không tồn tại'
       }
     } catch (error: any) {
       throw new Error(error.message)

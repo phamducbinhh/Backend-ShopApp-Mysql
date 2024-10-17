@@ -45,7 +45,10 @@ class CategoryController {
 
   async updateCategory(req: any, res: any) {
     try {
-      const response = await CategoryService.updateCategoryService()
+      const response = await CategoryService.updateCategoryService({
+        id: req.params.id,
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
@@ -57,7 +60,7 @@ class CategoryController {
 
   async deleteCategory(req: any, res: any) {
     try {
-      const response = await CategoryService.deleteCategoryService()
+      const response = await CategoryService.deleteCategoryService({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 

@@ -71,22 +71,29 @@ class CategoryService {
     }
   }
 
-  async updateCategoryService() {
+  async updateCategoryService({ id, body }: { id: string; body: any }) {
     try {
+      const response = await db.Category.update(body, {
+        where: { id }
+      })
       return {
-        success: true,
-        message: 'Sửa danh mục thành công'
+        success: response[0] > 0,
+        message: response[0] > 0 ? 'Sửa danh mục thành công' : 'Danh mục không tồn tại'
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async deleteCategoryService() {
+  async deleteCategoryService({ id }: { id: string }) {
     try {
+      const response = await db.Category.destroy({
+        where: { id }
+      })
+
       return {
-        success: true,
-        message: 'Xóa danh mục thành công'
+        success: response ? true : false,
+        message: response ? 'Xóa danh mục thành công' : 'Không tìm thấy danh mục để xóa'
       }
     } catch (error: any) {
       throw new Error(error.message)

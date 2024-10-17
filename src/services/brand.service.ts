@@ -71,22 +71,29 @@ class BrandService {
     }
   }
 
-  async updateBrandService() {
+  async updateBrandService({ id, body }: { id: string; body: any }) {
     try {
+      const response = await db.Brand.update(body, {
+        where: { id }
+      })
       return {
-        success: true,
-        message: 'Sửa thương hiệu thành công'
+        success: response[0] > 0,
+        message: response[0] > 0 ? 'Sửa thương hiệu thành công' : 'thương hiệu không tồn tại'
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async deleteBrandService() {
+  async deleteBrandService({ id }: { id: string }) {
     try {
+      const response = await db.Brand.destroy({
+        where: { id }
+      })
+
       return {
-        success: true,
-        message: 'Xóa thương hiệu thành công'
+        success: response ? true : false,
+        message: response ? 'Xóa thương hiệu thành công' : 'Không tìm thấy thương hiệu để xóa'
       }
     } catch (error: any) {
       throw new Error(error.message)
