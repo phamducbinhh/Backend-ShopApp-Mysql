@@ -9,12 +9,17 @@ class ProductService {
     const offset = (page - 1) * limit
     const search = req.query.search || ''
     try {
-      const { rows, count } = await db.Product.findAndCountAll({
-        where: {
-          name: {
-            [db.Sequelize.Op.like]: `%${search}%`
+      const whereCondition = search
+        ? {
+            [db.Sequelize.Op.or]: [
+              { name: { [db.Sequelize.Op.like]: `%${search}%` } },
+              { description: { [db.Sequelize.Op.like]: `%${search}%` } }
+            ]
           }
-        },
+        : {}
+
+      const { rows, count } = await db.Product.findAndCountAll({
+        where: whereCondition,
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         limit,
         offset,
