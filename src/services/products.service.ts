@@ -83,7 +83,6 @@ class ProductService {
       return {
         success: response[0] > 0,
         message: response[0] > 0 ? 'Sửa sản phẩm thành công' : 'Sản phẩm không tồn tại',
-        data: response[0] > 0 ? body : null
       }
     } catch (error: any) {
       throw new Error(error.message)
