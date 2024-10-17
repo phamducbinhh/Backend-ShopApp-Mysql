@@ -80,16 +80,38 @@ class NewsDetailService {
   }
 
   async insertNewsDetailService({ body }: { body: any }) {
+    const { product_id, news_id } = body
     try {
-      const [data, created] = await db.NewsDetail.findOrCreate({
-        where: { title: body.title },
-        defaults: body
-      })
+      const productExists = await db.Product.findByPk(product_id)
+      if (!productExists) {
+        return {
+          success: false,
+          message: 'Sản phẩm không tồn tại'
+        }
+      }
+
+      const newsExists = await db.News.findByPk(news_id)
+      if (!newsExists) {
+        return {
+          success: false,
+          message: 'Tin tức không tồn tại'
+        }
+      }
+
+      const duplicateExists = await db.NewsDetail.findOne({ where: { product_id, news_id } })
+      if (duplicateExists) {
+        return {
+          success: false,
+          message: 'Sản phẩm hoặc tin tức đã tồn tại'
+        }
+      }
+
+      const response = await db.NewsDetail.create(body)
 
       return {
-        success: created,
-        message: created ? 'Đã thêm chi tiết tin tức thành công' : 'Đã tồn tại tiêu đề chi tiết tin tức',
-        data: created ? data : null
+        success: response ? true : false,
+        message: response ? 'Đã thêm chi tiết tin tức thành công' : 'Đã tồn tại tiêu đề chi tiết tin tức',
+        data: response ? response : null
       }
     } catch (error: any) {
       throw new Error(error.message)
@@ -97,7 +119,19 @@ class NewsDetailService {
   }
 
   async updateNewsDetailService({ id, body }: { id: string; body: any }) {
+    const { product_id, news_id } = body
     try {
+      const existingDuplicate = await db.NewsDetail.findOne({
+        where: { product_id, news_id, id: { [db.Sequelize.Op.ne]: id } }
+      })
+
+      if (existingDuplicate) {
+        return {
+          success: false,
+          message: 'Sản phẩm hoặc tin tức đã tồn tại'
+        }
+      }
+
       const response = await db.NewsDetail.update(body, {
         where: { id }
       })
