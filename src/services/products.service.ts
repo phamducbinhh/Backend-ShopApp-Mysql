@@ -75,22 +75,30 @@ class ProductService {
     }
   }
 
-  async updateProductSerivce() {
+  async updateProductSerivce({ id, body }: { id: string; body: any }) {
     try {
+      const response = await db.Product.update(body, {
+        where: { id }
+      })
       return {
-        success: true,
-        message: 'Sửa sản phẩm thành công'
+        success: response[0] > 0,
+        message: response[0] > 0 ? 'Sửa sản phẩm thành công' : 'Sản phẩm không tồn tại',
+        data: response[0] > 0 ? body : null
       }
     } catch (error: any) {
       throw new Error(error.message)
     }
   }
 
-  async deleteProductSerivce() {
+  async deleteProductSerivce({ id }: { id: string }) {
     try {
+      const response = await db.Product.destroy({
+        where: { id }
+      })
+
       return {
-        success: true,
-        message: 'Xóa sản phẩm thành công'
+        success: response ? true : false,
+        message: response ? 'Xóa sản phẩm thành công' : 'Không tìm thấy sản phẩm để xóa'
       }
     } catch (error: any) {
       throw new Error(error.message)

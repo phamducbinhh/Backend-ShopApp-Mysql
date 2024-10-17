@@ -45,7 +45,10 @@ class ProductController {
 
   async updateProduct(req: any, res: any) {
     try {
-      const response = await ProductService.updateProductSerivce()
+      const response = await ProductService.updateProductSerivce({
+        id: req.params.id,
+        body: req.body
+      })
 
       if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
 
@@ -57,7 +60,7 @@ class ProductController {
 
   async deleteProduct(req: any, res: any) {
     try {
-      const response = await ProductService.deleteProductSerivce()
+      const response = await ProductService.deleteProductSerivce({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
