@@ -3,17 +3,34 @@ const db = require('../models')
 class ProductService {
   constructor() {}
 
-  async getProductSerivce() {
+  async getProductSerivce(req: any) {
+    const page = parseInt(req.query.page || 1)
+    const limit = parseInt(req.query.limit || 5)
+    const offset = (page - 1) * limit
+    const search = req.query.search || ''
     try {
-      const response = await db.Product.findAll({
+      const { rows, count } = await db.Product.findAndCountAll({
+        where: {
+          name: {
+            [db.Sequelize.Op.like]: `%${search}%`
+          }
+        },
         attributes: { exclude: ['createdAt', 'updatedAt'] },
+        limit,
+        offset,
         raw: true
       })
 
       return {
-        success: response ? true : false,
-        message: response ? 'Lấy sản phẩm thành công' : 'Lấy sản phẩm thất bại',
-        data: response ? response : null
+        success: rows ? true : false,
+        message: rows ? 'Lấy sản phẩm thành công' : 'Lấy sản phẩm thất bại',
+        data: {
+          totalItems: count,
+          itemsPerPage: limit,
+          currentPage: page,
+          totalPages: Math.ceil(count / limit),
+          items: rows
+        }
       }
     } catch (error: any) {
       throw new Error(error.message)

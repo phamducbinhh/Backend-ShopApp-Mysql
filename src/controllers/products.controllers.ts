@@ -7,7 +7,7 @@ class ProductController {
 
   async getProducts(req: any, res: any) {
     try {
-      const response = await ProductService.getProductSerivce()
+      const response = await ProductService.getProductSerivce(req)
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
