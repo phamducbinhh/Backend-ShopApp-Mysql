@@ -4,7 +4,6 @@ const brandRouter = require('./brand.routes')
 const orderRouter = require('./order.routes')
 const orderDetailRouter = require('./orderDetail.routes')
 
-
 const initRoutes = (app: any): void => {
   app.use('/api/v1/products', productRouter)
   app.use('/api/v1/categories', categoryRouter)
