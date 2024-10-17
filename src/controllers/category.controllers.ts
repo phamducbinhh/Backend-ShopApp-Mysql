@@ -19,7 +19,7 @@ class CategoryController {
 
   async getCategoryById(req: any, res: any) {
     try {
-      const response = await CategoryService.getCategoryByIdService()
+      const response = await CategoryService.getCategoryByIdService({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 

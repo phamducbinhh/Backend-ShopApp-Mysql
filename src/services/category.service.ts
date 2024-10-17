@@ -20,11 +20,17 @@ class CategoryService {
     }
   }
 
-  async getCategoryByIdService() {
+  async getCategoryByIdService({ id }: { id: string }) {
     try {
+      const response = await db.Category.findByPk(id, {
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        raw: true
+      })
+
       return {
-        success: true,
-        message: 'Lấy thông tin danh mục'
+        success: response ? true : false,
+        message: response ? 'Lấy thông tin danh mục thành công' : 'Không tồn tại danh mục này',
+        data: response ? response : null
       }
     } catch (error: any) {
       throw new Error(error.message)

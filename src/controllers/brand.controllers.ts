@@ -19,7 +19,7 @@ class BrandController {
 
   async getBrandById(req: any, res: any) {
     try {
-      const response = await BrandService.getBrandByIdService()
+      const response = await BrandService.getBrandByIdService({ id: req.params.id })
 
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
