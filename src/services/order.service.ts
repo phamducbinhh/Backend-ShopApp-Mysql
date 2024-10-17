@@ -61,15 +61,12 @@ class OrderService {
   // Thêm đơn hàng mới
   async insertOrderService({ body }: { body: any }) {
     try {
-      const [data, created] = await db.Order.findOrCreate({
-        where: { orderNumber: body.orderNumber },
-        defaults: body
-      })
+      const data = await db.Order.create(body)
 
       return {
-        success: created,
-        message: created ? 'Thêm mới đơn hàng thành công' : 'Đơn hàng đã tồn tại',
-        data: created ? data : null
+        success: true,
+        message: 'Thêm mới đơn hàng thành công',
+        data: data
       }
     } catch (error: any) {
       throw new Error(error.message)

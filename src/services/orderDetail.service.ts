@@ -57,15 +57,12 @@ class OrderDetailService {
 
   async insertOrderDetailService({ body }: { body: any }) {
     try {
-      const [data, created] = await db.OrderDetail.findOrCreate({
-        where: { name: body.name },
-        defaults: body
-      })
+      const data = await db.OrderDetail.create(body)
 
       return {
-        success: created,
-        message: created ? 'Thêm mới chi tiết đơn hàng thành công' : 'Chi tiết đơn hàng đã tồn tại',
-        data: created ? data : null
+        success: true,
+        message: 'Thêm mới chi tiết đơn hàng thành công',
+        data: data
       }
     } catch (error: any) {
       throw new Error(error.message)
