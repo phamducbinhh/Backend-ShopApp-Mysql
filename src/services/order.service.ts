@@ -3,7 +3,6 @@ const db = require('../models')
 class OrderService {
   constructor() {}
 
-  // Phân trang và tìm kiếm đơn hàng
   async getOrderService() {
     try {
       const response = await db.Order.findAll({
@@ -21,7 +20,6 @@ class OrderService {
     }
   }
 
-  // Lấy đơn hàng theo ID
   async getOrderByIdService({ id }: { id: string }) {
     try {
       const response = await db.Order.findByPk(id, {
@@ -39,8 +37,14 @@ class OrderService {
     }
   }
 
-  // Thêm đơn hàng mới
   async insertOrderService({ body }: { body: any }) {
+    const userExists = await db.User.findByPk(body.user_id)
+    if (!userExists) {
+      return {
+        success: false,
+        message: 'Người dùng không tồn tại'
+      }
+    }
     try {
       const data = await db.Order.create(body)
 
@@ -54,7 +58,6 @@ class OrderService {
     }
   }
 
-  // Sửa đơn hàng
   async updateOrderService({ id, body }: { id: string; body: any }) {
     try {
       const response = await db.Order.update(body, {
@@ -70,7 +73,6 @@ class OrderService {
     }
   }
 
-  // Xóa đơn hàng
   async deleteOrderService({ id }: { id: string }) {
     try {
       const response = await db.Order.destroy({
