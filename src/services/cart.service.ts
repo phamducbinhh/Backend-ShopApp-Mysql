@@ -13,7 +13,6 @@ class CartService {
     try {
       const { rows, count } = await db.Cart.findAndCountAll({
         where: whereCondition,
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
         limit,
         offset,
         raw: true

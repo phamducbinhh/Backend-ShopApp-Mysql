@@ -16,13 +16,12 @@ class CartItemService {
         include: [
           {
             model: db.Product,
-            as: 'product'
+            as: 'product',
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
           }
         ],
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
         limit,
-        offset,
-        raw: true
+        offset
       })
 
       return {
@@ -48,12 +47,10 @@ class CartItemService {
         include: [
           {
             model: db.Product,
-            as: 'product',
-            attributes: ['name', 'price', 'image_url']
+            as: 'product'
           }
         ],
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        raw: true
       })
 
       return {
