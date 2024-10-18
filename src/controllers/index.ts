@@ -9,6 +9,7 @@ const NewsDetailController = require('./news_detail.controllers')
 const BannerController = require('./banner.controllers')
 const BannerDetailController = require('./banner_detail.controllers')
 const ImageController = require('./upload.controllers')
+const ProductImageController = require('./productImage.controllers')
 
 module.exports = {
   ProductController,
@@ -21,5 +22,6 @@ module.exports = {
   NewsDetailController,
   BannerController,
   BannerDetailController,
-  ImageController
+  ImageController,
+  ProductImageController
 }

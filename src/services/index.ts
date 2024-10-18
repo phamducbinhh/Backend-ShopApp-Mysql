@@ -9,6 +9,7 @@ const NewsDetailService = require('./news_detail.service')
 const BannerService = require('./banner.service')
 const BannerDetailService = require('./banner_detail.service')
 const ImageService = require('./upload.service')
+const ProductImageService = require('./productImage.service')
 
 module.exports = {
   ProductService,
@@ -21,5 +22,6 @@ module.exports = {
   NewsDetailService,
   BannerService,
   BannerDetailService,
-  ImageService
+  ImageService,
+  ProductImageService
 }
