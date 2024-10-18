@@ -6,6 +6,7 @@ const orderDetailRouter = require('./orderDetail.routes')
 const userRouter = require('./user.routes')
 const newsRouter = require('./news.routes')
 const newsDetailRouter = require('./news_detail.routes')
+const bannerRouter = require('./banner.routes')
 
 const initRoutes = (app: any): void => {
   app.use('/api/v1/products', productRouter)
@@ -16,6 +17,7 @@ const initRoutes = (app: any): void => {
   app.use('/api/v1/user', userRouter)
   app.use('/api/v1/news', newsRouter)
   app.use('/api/v1/news-details', newsDetailRouter)
+  app.use('/api/v1/banners', bannerRouter)
 }
 
 module.exports = initRoutes
