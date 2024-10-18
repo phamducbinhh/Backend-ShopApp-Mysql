@@ -8,11 +8,11 @@ class CartService {
     const page = parseInt(req.query.page || 1)
     const limit = parseInt(req.query.limit || 10)
     const offset = (page - 1) * limit
-    const { userId, session_id } = req.query
-
+    const { user_id, session_id } = req.query
+    const whereCondition = session_id ? { session_id } : user_id ? { user_id } : {}
     try {
       const { rows, count } = await db.Cart.findAndCountAll({
-        where: userId || session_id ? { user_id: userId || session_id } : {},
+        where: whereCondition,
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         limit,
         offset,
@@ -62,7 +62,7 @@ class CartService {
   async insertCartService({ body }: { body: any }) {
     try {
       const [data, created] = await db.Cart.findOrCreate({
-        where: { user_id: body.user_id },
+        where: { session_id: body.session_id },
         defaults: body
       })
 
