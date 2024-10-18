@@ -56,53 +56,18 @@ class BannerService {
   }
 
   async insertBannerService({ body }: { body: any }) {
-    const transaction = await db.sequelize.transaction() // Bắt đầu transaction
     try {
-      const { product_ids } = body
-
-      // Tạo bản ghi banner mới trong bảng Banner
-      const response = await db.Banner.create(body, { transaction })
-
-      // Kiểm tra nếu có danh sách sản phẩm liên quan
-      if (product_ids && product_ids.length > 0) {
-        // Tìm tất cả sản phẩm có trong danh sách product_ids
-        const validProducts = await db.Product.findAll({
-          where: {
-            id: {
-              [db.Sequelize.Op.in]: product_ids // Kiểm tra danh sách ID sản phẩm
-            }
-          }
-        })
-
-        // Lấy danh sách ID sản phẩm hợp lệ
-        const validProductsIds = validProducts.map((product: any) => product.id)
-
-        // Chỉ giữ lại những sản phẩm có id hợp lệ
-        const filteredProductsIds = product_ids.filter((id: any) => validProductsIds.includes(id))
-
-        // Tạo bản ghi trong bảng BannerDetail cho các sản phẩm hợp lệ
-        const bannerDetailsPromise = filteredProductsIds.map((id: any) =>
-          db.BannerDetail.create(
-            {
-              banner_id: response.id,
-              product_id: id
-            },
-            { transaction }
-          )
-        )
-        // Chờ tất cả bản ghi BannerDetail được tạo
-        await Promise.all(bannerDetailsPromise)
-      }
-
-      await transaction.commit() // Commit transaction nếu tất cả thành công
+      const [data, created] = await db.Banner.findOrCreate({
+        where: { name: body.name },
+        defaults: body
+      })
 
       return {
-        success: true,
-        message: 'Banner đã được thêm thành công',
-        data: response
+        success: created ? true : false,
+        message: created ? 'Đã thêm banner thành công' : 'Đã tồn tại tên banner',
+        data: created ? data : null
       }
     } catch (error: any) {
-      await transaction.rollback() // Rollback transaction nếu có lỗi
       throw new Error(error.message)
     }
   }
