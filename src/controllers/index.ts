@@ -10,6 +10,8 @@ const BannerController = require('./banner.controllers')
 const BannerDetailController = require('./banner_detail.controllers')
 const ImageController = require('./upload.controllers')
 const ProductImageController = require('./productImage.controllers')
+const CartController = require('./cart.controllers')
+const CartItemController = require('./cartItem.controllers')
 
 module.exports = {
   ProductController,
@@ -23,5 +25,7 @@ module.exports = {
   BannerController,
   BannerDetailController,
   ImageController,
-  ProductImageController
+  ProductImageController,
+  CartController,
+  CartItemController
 }

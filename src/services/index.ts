@@ -10,6 +10,8 @@ const BannerService = require('./banner.service')
 const BannerDetailService = require('./banner_detail.service')
 const ImageService = require('./upload.service')
 const ProductImageService = require('./productImage.service')
+const CartService = require('./cart.service')
+const CartItemService = require('./cart_item.service')
 
 module.exports = {
   ProductService,
@@ -23,5 +25,7 @@ module.exports = {
   BannerService,
   BannerDetailService,
   ImageService,
-  ProductImageService
+  ProductImageService,
+  CartService,
+  CartItemService
 }
