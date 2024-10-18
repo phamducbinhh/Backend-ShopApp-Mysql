@@ -45,7 +45,13 @@ class ProductService {
     try {
       const response = await db.Product.findByPk(id, {
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        raw: true
+        include: [
+          {
+            model: db.ProductImage,
+            as: 'product_images', // Đảm bảo tên alias này khớp với định nghĩa quan hệ trong models
+            attributes: ['id', 'image_url']
+          }
+        ]
       })
 
       return {
