@@ -134,16 +134,33 @@ class NewService {
   }
 
   async deleteNewService({ id }: { id: string }) {
+    const transaction = await db.sequelize.transaction()
     try {
-      const response = await db.News.destroy({
-        where: { id }
+      await db.NewsDetail.destroy({
+        where: { news_id: id },
+        transaction
       })
 
-      return {
-        success: response > 0,
-        message: response > 0 ? 'Xóa tin tức thành công' : 'Không tìm thấy tin tức để xóa'
+      const response = await db.News.destroy({
+        where: { id },
+        transaction
+      })
+
+      if (response) {
+        await transaction.commit()
+        return {
+          success: true,
+          message: 'Xóa tin tức thành công'
+        }
+      } else {
+        await transaction.rollback()
+        return {
+          success: false,
+          message: 'Không tìm thấy tin tức để xóa'
+        }
       }
     } catch (error: any) {
+      await transaction.rollback()
       throw new Error(error.message)
     }
   }
