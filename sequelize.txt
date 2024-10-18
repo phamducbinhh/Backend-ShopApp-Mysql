@@ -8,6 +8,9 @@ npx sequelize-cli model:generate --name BannerDetail --attributes product_id:int
 npx sequelize-cli model:generate --name Product --attributes name:string,price:integer,oldprice:integer,image:text,description:text,specification:text,buyturn:integer,quantity:integer,brand_id:integer,category_id:integer
 npx sequelize-cli model:generate --name ProductImage --attributes product_id:integer,image_url:text
 
+npx sequelize-cli model:generate --name Cart --attributes session_id:integer,user_id:integer
+npx sequelize-cli model:generate --name CartItem --attributes product_id:integer,cart_id:integer,quantity:integer
+
 
 npx sequelize-cli db:migrate
 
