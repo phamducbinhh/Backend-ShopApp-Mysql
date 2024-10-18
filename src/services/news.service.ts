@@ -109,6 +109,17 @@ class NewService {
 
   async updateNewService({ id, body }: { id: string; body: any }) {
     try {
+      const existingTitle = await db.News.findOne({
+        where: { title: body.title, id: { [db.Sequelize.Op.ne]: id } }
+      })
+
+      if (existingTitle) {
+        return {
+          success: false,
+          message: 'Tiêu đề đã tồn tại'
+        }
+      }
+
       const response = await db.News.update(body, {
         where: { id }
       })
