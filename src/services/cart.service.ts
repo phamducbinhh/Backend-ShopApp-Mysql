@@ -60,9 +60,19 @@ class CartService {
 
   // Tạo mới giỏ hàng
   async insertCartService({ body }: { body: any }) {
+    const { session_id, user_id } = body
+
+    if ((!user_id && !session_id) || (user_id && session_id)) {
+      return {
+        success: false,
+        message: 'Yêu cầu không hợp lệ'
+      }
+    }
     try {
       const [data, created] = await db.Cart.findOrCreate({
-        where: { session_id: body.session_id },
+        where: {
+          [db.Sequelize.Op.or]: [{ user_id: user_id ? user_id : null }, { session_id: session_id ? session_id : null }]
+        },
         defaults: body
       })
 
