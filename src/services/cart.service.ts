@@ -8,11 +8,11 @@ class CartService {
     const page = parseInt(req.query.page || 1)
     const limit = parseInt(req.query.limit || 10)
     const offset = (page - 1) * limit
-    const userId = req.query.user_id || ''
+    const { userId, session_id } = req.query
 
     try {
       const { rows, count } = await db.Cart.findAndCountAll({
-        where: userId ? { user_id: userId } : {},
+        where: userId || session_id ? { user_id: userId || session_id } : {},
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         limit,
         offset,
@@ -40,7 +40,12 @@ class CartService {
     try {
       const response = await db.Cart.findByPk(id, {
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        raw: true
+        include: [
+          {
+            model: db.CartItem,
+            as: 'cart'
+          }
+        ]
       })
 
       return {

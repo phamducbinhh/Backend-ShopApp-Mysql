@@ -8,11 +8,11 @@ class CartItemService {
     const page = parseInt(req.query.page || 1)
     const limit = parseInt(req.query.limit || 10)
     const offset = (page - 1) * limit
-    const cartId = req.query.cart_id || ''
+    const cart_id = req.query.cart_id || ''
 
     try {
       const { rows, count } = await db.CartItem.findAndCountAll({
-        where: cartId ? { cart_id: cartId } : {},
+        where: cart_id ? { cart_id: cart_id } : {},
         include: [
           {
             model: db.Product,
