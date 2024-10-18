@@ -16,3 +16,6 @@ ADD CONSTRAINT quantity_check CHECK (quantity > 0);
 ALTER TABLE products
 MODIFY buyturn INT DEFAULT 0;
 ADD CONSTRAINT buyturn_check CHECK (buyturn > 0);
+
+-- xóa khóa ngoại
+ALTER TABLE orders DROP FOREIGN KEY orders_ibfk_1;
