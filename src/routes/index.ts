@@ -8,6 +8,7 @@ const newsRouter = require('./news.routes')
 const newsDetailRouter = require('./news_detail.routes')
 const bannerRouter = require('./banner.routes')
 const bannerDetailRouter = require('./banner_detail.routes')
+const uploadRouter = require('./upload.routes')
 
 const initRoutes = (app: any): void => {
   app.use('/api/v1/products', productRouter)
@@ -20,6 +21,7 @@ const initRoutes = (app: any): void => {
   app.use('/api/v1/news-details', newsDetailRouter)
   app.use('/api/v1/banners', bannerRouter)
   app.use('/api/v1/banners-details', bannerDetailRouter)
+  app.use('/api/v1/upload-images', uploadRouter)
 }
 
 module.exports = initRoutes
