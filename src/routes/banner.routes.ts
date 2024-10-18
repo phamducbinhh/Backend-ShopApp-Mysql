@@ -2,16 +2,17 @@ const express = require('express')
 
 const { BannerController } = require('../controllers')
 
-// const validate = require('../middlewares/validate')
+const validate = require('../middlewares/validate')
 
-// const InsertNewSchema = require('../schema/news/insertNewSchema')
+const InsertBannerSchema = require('../schema/banner/insertBannerSchema')
+
 // const UpdateNewSchema = require('../schema/news/updateNewSchema')
 
 const router = express.Router()
 
 router.get('/', BannerController.getBanners)
 router.get('/:id', BannerController.getBannerById)
-router.post('/', BannerController.insertBanner)
+router.post('/', validate(InsertBannerSchema), BannerController.insertBanner)
 router.put('/:id', BannerController.updateBanner)
 router.delete('/:id', BannerController.deleteBanner)
 
