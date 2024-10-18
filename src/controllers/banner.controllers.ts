@@ -5,7 +5,6 @@ const handleError = require('../utils/utility')
 class BannerController {
   constructor() {}
 
-  // Lấy danh sách banner với phân trang và tìm kiếm
   async getBanners(req: any, res: any) {
     try {
       const response = await BannerService.getBannerService(req)
@@ -18,7 +17,6 @@ class BannerController {
     }
   }
 
-  // Lấy thông tin chi tiết banner theo id
   async getBannerById(req: any, res: any) {
     try {
       const response = await BannerService.getBannerByIdService({ id: req.params.id })
@@ -31,7 +29,6 @@ class BannerController {
     }
   }
 
-  // Tạo mới banner
   async insertBanner(req: any, res: any) {
     try {
       const response = await BannerService.insertBannerService({
@@ -46,7 +43,6 @@ class BannerController {
     }
   }
 
-  // Cập nhật banner theo id
   async updateBanner(req: any, res: any) {
     try {
       const response = await BannerService.updateBannerService({
@@ -62,7 +58,6 @@ class BannerController {
     }
   }
 
-  // Xóa banner theo id
   async deleteBanner(req: any, res: any) {
     try {
       const response = await BannerService.deleteBannerService({ id: req.params.id })
