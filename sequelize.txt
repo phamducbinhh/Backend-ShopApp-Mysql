@@ -6,6 +6,7 @@ npx sequelize-cli model:generate --name OrderDetail --attributes order_id:intege
 npx sequelize-cli model:generate --name NewsDetail --attributes product_id:integer,news_id:integer
 npx sequelize-cli model:generate --name BannerDetail --attributes product_id:integer,banner_id:integer
 npx sequelize-cli model:generate --name Product --attributes name:string,price:integer,oldprice:integer,image:text,description:text,specification:text,buyturn:integer,quantity:integer,brand_id:integer,category_id:integer
+npx sequelize-cli model:generate --name ProductImage --attributes product_id:integer,image_url:text
 
 
 npx sequelize-cli db:migrate
