@@ -25,6 +25,10 @@ class AuthService {
   async login({ body }: { body: any }, res: any) {
     const { email, password, phone } = body
 
+    if (!email && !phone) {
+      return { success: false, message: 'Vui lòng cung cấp email hoặc số điện thoại' }
+    }
+
     try {
       const user = await db.User.findOne({
         where: {
