@@ -10,7 +10,7 @@ const router = express.Router()
 
 const verifyToken = require('../middlewares/verifyToken')
 
-router.get('/', BannerDetailController.getBannerDetails)
+router.get('/', verifyToken, BannerDetailController.getBannerDetails)
 router.get('/:id', verifyToken, BannerDetailController.getBannerDetailById)
 router.post('/', [validate(InsertBannerDetailSchema), verifyToken], BannerDetailController.insertBannerDetail)
 router.put('/:id', verifyToken, BannerDetailController.updateBannerDetail)
