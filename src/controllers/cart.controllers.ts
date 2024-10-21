@@ -46,6 +46,20 @@ class CartController {
     }
   }
 
+  async checkoutCart(req: any, res: any) {
+    try {
+      const response = await CartService.checkoutCartService({
+        body: req.body
+      })
+
+      if (response.success === false) return res.status(HttpStatusCode.BAD_REQUEST).json(response)
+
+      return res.status(HttpStatusCode.CREATED).json(response)
+    } catch (error: any) {
+      return handleError(res, error)
+    }
+  }
+
   // Cập nhật giỏ hàng
   async updateCart(req: any, res: any) {
     try {

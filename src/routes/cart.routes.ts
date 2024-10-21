@@ -11,6 +11,7 @@ const router = express.Router()
 router.get('/', CartController.getCarts)
 router.get('/:id', CartController.getCartById)
 router.post('/', validate(InsertCartSchema), CartController.insertCart)
+router.post('/checkout', CartController.checkoutCart)
 router.put('/:id', CartController.updateCart)
 router.delete('/:id', CartController.deleteCart)
 

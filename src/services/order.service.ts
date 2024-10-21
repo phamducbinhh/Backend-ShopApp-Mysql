@@ -24,7 +24,12 @@ class OrderService {
     try {
       const response = await db.Order.findByPk(id, {
         attributes: { exclude: ['createdAt', 'updatedAt'] },
-        raw: true
+        include: [
+          {
+            model: db.OrderDetail,
+            as: 'order_details'
+          }
+        ]
       })
 
       return {

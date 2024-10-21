@@ -67,8 +67,10 @@ class CartItemService {
 
   // Thêm sản phẩm vào giỏ hàng
   async insertCartItemService({ body }: { body: any }) {
+    const { cart_id, product_id, quantity } = body
+
     try {
-      const productExists = await db.Product.findByPk(body.product_id)
+      const productExists = await db.Product.findByPk(product_id)
       if (!productExists) {
         return {
           success: false,
@@ -76,15 +78,45 @@ class CartItemService {
         }
       }
 
-      const [data, created] = await db.CartItem.findOrCreate({
-        where: { cart_id: body.cart_id, product_id: body.product_id },
-        defaults: body
+      if (productExists.quantity < quantity) {
+        return {
+          success: false,
+          message: 'Sản phẩm không đủ số lượng yêu cầu'
+        }
+      }
+
+      const cartItem = await db.CartItem.findOne({
+        where: { cart_id, product_id }
       })
 
+      if (quantity === 0) {
+        if (cartItem) {
+          await cartItem.destroy()
+          return {
+            success: true,
+            message: 'Sản phẩm đã bị xóa khỏi giỏ hàng do số lượng bằng 0'
+          }
+        }
+        return {
+          success: false,
+          message: 'Không thể thêm sản phẩm với số lượng bằng 0'
+        }
+      }
+
+      if (cartItem) {
+        const updatedCartItem = await cartItem.update({ quantity })
+        return {
+          success: true,
+          message: 'Cập nhật sản phẩm trong giỏ hàng thành công',
+          data: updatedCartItem
+        }
+      }
+
+      const newCartItem = await db.CartItem.create(body)
       return {
-        success: created ? true : false,
-        message: created ? 'Thêm sản phẩm vào giỏ hàng thành công' : 'Sản phẩm đã tồn tại trong giỏ hàng',
-        data: created ? data : null
+        success: true,
+        message: 'Thêm sản phẩm vào giỏ hàng thành công',
+        data: newCartItem
       }
     } catch (error: any) {
       throw new Error(error.message)
