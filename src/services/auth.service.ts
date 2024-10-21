@@ -1,4 +1,4 @@
-import { ROLE } from "~/constants/role"
+import { ROLE } from '~/constants/role'
 
 const bcrypt = require('bcrypt')
 const db = require('../models')
@@ -67,7 +67,7 @@ class AuthService {
   }
 
   async register({ body }: { body: any }, res: any) {
-    const { email, password, phone } = body
+    const { email, password, phone, name, avatar } = body
     try {
       const userExists = await db.User.findOne({
         where: {
@@ -87,6 +87,8 @@ class AuthService {
       const user = await db.User.create({
         email,
         phone,
+        name,
+        avatar,
         role: ROLE.USER,
         password: this.hashPassword(password)
       })
