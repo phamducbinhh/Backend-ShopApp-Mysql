@@ -1,5 +1,6 @@
 const { AuthService } = require('../services')
 const HttpStatusCode = require('../constants/HttpStatusCode')
+const handleError = require('../utils/utility')
 
 class AuthController {
   constructor() {}
@@ -11,10 +12,19 @@ class AuthController {
 
       return res.status(HttpStatusCode.SUCCESS).json(response)
     } catch (error: any) {
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: error.message
+      return handleError(res, error)
+    }
+  }
+
+  async logout(req: any, res: any) {
+    try {
+      res.clearCookie('token')
+      return res.status(HttpStatusCode.SUCCESS).json({
+        success: true,
+        message: 'Logout successfully'
       })
+    } catch (error: any) {
+      return handleError(res, error)
     }
   }
 }
