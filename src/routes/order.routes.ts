@@ -6,12 +6,14 @@ const validate = require('../middlewares/validate')
 
 const InsertOrderSchema = require('../schema/order/insertOrderSchema')
 
+const verifyToken = require('../middlewares/verifyToken')
+
 const router = express.Router()
 
-router.get('/', OrderController.getOrders)
-router.get('/:id', OrderController.getOrderById)
-router.post('/', validate(InsertOrderSchema), OrderController.insertOrder)
-router.put('/:id', OrderController.updateOrder)
-router.delete('/:id', OrderController.deleteOrder)
+router.get('/', verifyToken, OrderController.getOrders)
+router.get('/:id', verifyToken, OrderController.getOrderById)
+router.post('/', [validate(InsertOrderSchema), verifyToken], OrderController.insertOrder)
+router.put('/:id', verifyToken, OrderController.updateOrder)
+router.delete('/:id', verifyToken, OrderController.deleteOrder)
 
 module.exports = router

@@ -20,7 +20,7 @@ class AuthController {
       const response = await AuthService.register({ body: req.body }, res)
       if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
 
-      return res.status(HttpStatusCode.SUCCESS).json(response)
+      return res.status(HttpStatusCode.CREATED).json(response)
     } catch (error: any) {
       return handleError(res, error)
     }

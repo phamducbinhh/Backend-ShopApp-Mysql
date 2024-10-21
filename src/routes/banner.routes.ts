@@ -6,14 +6,14 @@ const validate = require('../middlewares/validate')
 
 const InsertBannerSchema = require('../schema/banner/insertBannerSchema')
 
-// const UpdateNewSchema = require('../schema/news/updateNewSchema')
+const verifyToken = require('../middlewares/verifyToken')
 
 const router = express.Router()
 
 router.get('/', BannerController.getBanners)
 router.get('/:id', BannerController.getBannerById)
-router.post('/', validate(InsertBannerSchema), BannerController.insertBanner)
-router.put('/:id', BannerController.updateBanner)
-router.delete('/:id', BannerController.deleteBanner)
+router.post('/', [validate(InsertBannerSchema), verifyToken], BannerController.insertBanner)
+router.put('/:id', verifyToken, BannerController.updateBanner)
+router.delete('/:id', verifyToken, BannerController.deleteBanner)
 
 module.exports = router

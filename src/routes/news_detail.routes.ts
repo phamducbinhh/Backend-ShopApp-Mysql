@@ -6,12 +6,14 @@ const validate = require('../middlewares/validate')
 
 const InsertNewDetailSchema = require('../schema/news_detail/insertNewDetailSchema')
 
+const verifyToken = require('../middlewares/verifyToken')
+
 const router = express.Router()
 
-router.get('/', NewsDetailController.getNewsDetails)
-router.get('/:id', NewsDetailController.getNewsDetailById)
-router.post('/', validate(InsertNewDetailSchema), NewsDetailController.insertNewsDetail)
-router.put('/:id', NewsDetailController.updateNewsDetail)
-router.delete('/:id', NewsDetailController.deleteNewsDetail)
+router.get('/', verifyToken, NewsDetailController.getNewsDetails)
+router.get('/:id', verifyToken, NewsDetailController.getNewsDetailById)
+router.post('/', [validate(InsertNewDetailSchema), verifyToken], NewsDetailController.insertNewsDetail)
+router.put('/:id', verifyToken, NewsDetailController.updateNewsDetail)
+router.delete('/:id', verifyToken, NewsDetailController.deleteNewsDetail)
 
 module.exports = router
