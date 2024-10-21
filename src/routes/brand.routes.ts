@@ -2,7 +2,7 @@ const express = require('express')
 
 const { BrandController } = require('../controllers')
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 const router = express.Router()
 

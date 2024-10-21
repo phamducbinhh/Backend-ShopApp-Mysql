@@ -6,7 +6,7 @@ const validate = require('../middlewares/validate')
 
 const InsertBannerSchema = require('../schema/banner/insertBannerSchema')
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 const router = express.Router()
 

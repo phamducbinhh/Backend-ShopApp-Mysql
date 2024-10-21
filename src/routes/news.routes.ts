@@ -4,7 +4,7 @@ const { NewsController } = require('../controllers')
 
 const validate = require('../middlewares/validate')
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 const InsertNewSchema = require('../schema/news/insertNewSchema')
 

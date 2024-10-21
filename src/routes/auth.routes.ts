@@ -4,7 +4,7 @@ const { AuthController } = require('../controllers')
 
 const validate = require('../middlewares/validate')
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 const InsertUserSchema = require('../schema/user/insertUserSchema')
 

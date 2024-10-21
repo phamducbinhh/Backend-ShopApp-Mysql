@@ -8,7 +8,7 @@ const ProductUpdateSchema = require('../schema/product/productUpdateSchema')
 
 const validate = require('../middlewares/validate')
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 const router = express.Router()
 

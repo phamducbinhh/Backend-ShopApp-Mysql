@@ -4,7 +4,7 @@ const { CategoryController } = require('../controllers')
 
 const router = express.Router()
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 router.get('/', CategoryController.getCategories)
 router.get('/:id', CategoryController.getCategoryById)

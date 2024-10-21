@@ -8,7 +8,7 @@ const InsertBannerDetailSchema = require('../schema//banner_detail/insertBannerD
 
 const router = express.Router()
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 router.get('/', verifyToken, BannerDetailController.getBannerDetails)
 router.get('/:id', verifyToken, BannerDetailController.getBannerDetailById)

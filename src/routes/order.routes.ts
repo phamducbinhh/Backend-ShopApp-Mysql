@@ -6,7 +6,7 @@ const validate = require('../middlewares/validate')
 
 const InsertOrderSchema = require('../schema/order/insertOrderSchema')
 
-const verifyToken = require('../middlewares/verifyToken')
+const { verifyToken } = require('../middlewares/jwtMiddleware')
 
 const router = express.Router()
 
