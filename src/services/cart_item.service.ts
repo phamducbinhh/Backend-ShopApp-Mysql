@@ -50,7 +50,7 @@ class CartItemService {
             as: 'product'
           }
         ],
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
       })
 
       return {

@@ -15,7 +15,12 @@ class CartService {
         where: whereCondition,
         limit,
         offset,
-        raw: true
+        include: [
+          {
+            model: db.CartItem,
+            as: 'cart_items'
+          }
+        ]
       })
 
       return {
@@ -42,7 +47,7 @@ class CartService {
         include: [
           {
             model: db.CartItem,
-            as: 'cart'
+            as: 'cart_items'
           }
         ]
       })
