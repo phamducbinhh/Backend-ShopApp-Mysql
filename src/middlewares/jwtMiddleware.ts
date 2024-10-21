@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const HttpStatusCode = require('../constants/HttpStatusCode')
 const db = require('../models')
 
-// Hàm phụ để kiểm tra token và lấy thông tin người dùng
 const getUserFromToken = async (req: any, res: any) => {
   const token = req.cookies?.token || req.headers?.authorization?.split(' ')[1]
 
@@ -43,7 +42,6 @@ const getUserFromToken = async (req: any, res: any) => {
   }
 }
 
-// Middleware kiểm tra token
 const verifyToken = async (req: any, res: any, next: any) => {
   const result = await getUserFromToken(req, res)
   if (result?.user) {
@@ -52,7 +50,6 @@ const verifyToken = async (req: any, res: any, next: any) => {
   }
 }
 
-// Middleware kiểm tra quyền truy cập dựa trên vai trò
 const verifyRole = (rolesRequired: any) => {
   return async (req: any, res: any, next: any) => {
     const result = await getUserFromToken(req, res)

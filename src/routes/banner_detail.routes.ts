@@ -1,3 +1,5 @@
+import { ROLE } from '~/constants/role'
+
 const express = require('express')
 
 const { BannerDetailController } = require('../controllers')
@@ -8,12 +10,14 @@ const InsertBannerDetailSchema = require('../schema//banner_detail/insertBannerD
 
 const router = express.Router()
 
-const { verifyToken } = require('../middlewares/jwtMiddleware')
+const { verifyRole } = require('../middlewares/jwtMiddleware')
 
-router.get('/', verifyToken, BannerDetailController.getBannerDetails)
-router.get('/:id', verifyToken, BannerDetailController.getBannerDetailById)
-router.post('/', [validate(InsertBannerDetailSchema), verifyToken], BannerDetailController.insertBannerDetail)
-router.put('/:id', verifyToken, BannerDetailController.updateBannerDetail)
-router.delete('/:id', verifyToken, BannerDetailController.deleteBannerDetail)
+const adminAuth = [verifyRole([ROLE.ADMIN])]
+
+router.get('/', adminAuth, BannerDetailController.getBannerDetails)
+router.get('/:id', adminAuth, BannerDetailController.getBannerDetailById)
+router.post('/', [adminAuth, validate(InsertBannerDetailSchema)], BannerDetailController.insertBannerDetail)
+router.put('/:id', adminAuth, BannerDetailController.updateBannerDetail)
+router.delete('/:id', adminAuth, BannerDetailController.deleteBannerDetail)
 
 module.exports = router

@@ -1,3 +1,5 @@
+import { ROLE } from '~/constants/role'
+
 const express = require('express')
 
 const { ProductController } = require('../controllers')
@@ -8,14 +10,16 @@ const ProductUpdateSchema = require('../schema/product/productUpdateSchema')
 
 const validate = require('../middlewares/validate')
 
-const { verifyToken } = require('../middlewares/jwtMiddleware')
+const { verifyRole } = require('../middlewares/jwtMiddleware')
+
+const adminAuth = [verifyRole([ROLE.ADMIN])]
 
 const router = express.Router()
 
-router.get('/', ProductController.getProducts)
+router.get('/', adminAuth, ProductController.getProducts)
 router.get('/:id', ProductController.getProductById)
-router.post('/', [validate(ProductInsertSchema), verifyToken], ProductController.inSertProduct)
-router.put('/:id', [validate(ProductUpdateSchema), verifyToken], ProductController.updateProduct)
-router.delete('/:id', verifyToken, ProductController.deleteProduct)
+router.post('/', [adminAuth, validate(ProductInsertSchema)], ProductController.inSertProduct)
+router.put('/:id', [adminAuth, validate(ProductUpdateSchema)], ProductController.updateProduct)
+router.delete('/:id', adminAuth, ProductController.deleteProduct)
 
 module.exports = router

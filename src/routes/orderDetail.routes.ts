@@ -1,15 +1,19 @@
+import { ROLE } from '~/constants/role'
+
 const express = require('express')
 
 const { OrderDetailController } = require('../controllers')
 
-const { verifyToken } = require('../middlewares/jwtMiddleware')
+const { verifyRole } = require('../middlewares/jwtMiddleware')
+
+const adminAuth = [verifyRole([ROLE.ADMIN])]
 
 const router = express.Router()
 
-router.get('/', verifyToken, OrderDetailController.getOrderDetails)
-router.get('/:id', verifyToken, OrderDetailController.getOrderDetailById)
-router.post('/', verifyToken, OrderDetailController.insertOrderDetail)
-router.put('/:id', verifyToken, OrderDetailController.updateOrderDetail)
-router.delete('/:id', verifyToken, OrderDetailController.deleteOrderDetail)
+router.get('/', adminAuth, OrderDetailController.getOrderDetails)
+router.get('/:id', adminAuth, OrderDetailController.getOrderDetailById)
+router.post('/', adminAuth, OrderDetailController.insertOrderDetail)
+router.put('/:id', adminAuth, OrderDetailController.updateOrderDetail)
+router.delete('/:id', adminAuth, OrderDetailController.deleteOrderDetail)
 
 module.exports = router

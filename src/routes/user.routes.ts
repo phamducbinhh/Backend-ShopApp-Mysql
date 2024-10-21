@@ -8,11 +8,11 @@ const validate = require('../middlewares/validate')
 
 const InsertUserSchema = require('../schema/user/insertUserSchema')
 
-const { verifyToken, verifyRole } = require('../middlewares/jwtMiddleware')
+const { verifyRole } = require('../middlewares/jwtMiddleware')
 
 const router = express.Router()
 
-const adminAuth = [verifyToken, verifyRole([ROLE.ADMIN])]
+const adminAuth = [verifyRole([ROLE.ADMIN])]
 
 router.get('/', adminAuth, UserController.getUsers)
 router.get('/:id', adminAuth, UserController.getUserById)

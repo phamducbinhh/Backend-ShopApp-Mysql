@@ -1,10 +1,14 @@
+import { ROLE } from '~/constants/role'
+
 const express = require('express')
 
 const { NewsController } = require('../controllers')
 
 const validate = require('../middlewares/validate')
 
-const { verifyToken } = require('../middlewares/jwtMiddleware')
+const { verifyRole } = require('../middlewares/jwtMiddleware')
+
+const adminAuth = [verifyRole([ROLE.ADMIN])]
 
 const InsertNewSchema = require('../schema/news/insertNewSchema')
 
@@ -14,8 +18,8 @@ const router = express.Router()
 
 router.get('/', NewsController.getNews)
 router.get('/:id', NewsController.getNewById)
-router.post('/', [validate(InsertNewSchema), verifyToken], NewsController.insertNew)
-router.put('/:id', [validate(UpdateNewSchema), verifyToken], NewsController.updateNew)
-router.delete('/:id', verifyToken, NewsController.deleteNew)
+router.post('/', [adminAuth, validate(InsertNewSchema)], NewsController.insertNew)
+router.put('/:id', [adminAuth, validate(UpdateNewSchema)], NewsController.updateNew)
+router.delete('/:id', adminAuth, NewsController.deleteNew)
 
 module.exports = router
