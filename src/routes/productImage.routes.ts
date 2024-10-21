@@ -15,8 +15,8 @@ const adminAuth = [verifyRole([ROLE.ADMIN])]
 const router = express.Router()
 
 // product image
-router.get('/', adminAuth, ProductImageController.getProductImages)
-router.get('/:id', adminAuth, ProductImageController.getProductImageById)
+router.get('/', ProductImageController.getProductImages)
+router.get('/:id', ProductImageController.getProductImageById)
 router.post('/', [adminAuth, validate(InsertProductImageSchema)], ProductImageController.insertProductImage)
 router.put('/:id', adminAuth, ProductImageController.updateProductImage)
 router.delete('/:id', adminAuth, ProductImageController.deleteProductImage)

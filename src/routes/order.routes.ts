@@ -14,8 +14,8 @@ const adminAuth = [verifyRole([ROLE.ADMIN])]
 
 const router = express.Router()
 
-router.get('/', adminAuth, OrderController.getOrders)
-router.get('/:id', adminAuth, OrderController.getOrderById)
+router.get('/', OrderController.getOrders)
+router.get('/:id', OrderController.getOrderById)
 router.post('/', [adminAuth, validate(InsertOrderSchema)], OrderController.insertOrder)
 router.put('/:id', adminAuth, OrderController.updateOrder)
 router.delete('/:id', adminAuth, OrderController.deleteOrder)

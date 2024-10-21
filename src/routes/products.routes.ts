@@ -16,7 +16,7 @@ const adminAuth = [verifyRole([ROLE.ADMIN])]
 
 const router = express.Router()
 
-router.get('/', adminAuth, ProductController.getProducts)
+router.get('/', ProductController.getProducts)
 router.get('/:id', ProductController.getProductById)
 router.post('/', [adminAuth, validate(ProductInsertSchema)], ProductController.inSertProduct)
 router.put('/:id', [adminAuth, validate(ProductUpdateSchema)], ProductController.updateProduct)
