@@ -2,7 +2,7 @@ const path = require('path')
 class ImageService {
   constructor() {}
 
-  async handleUpload(req: any, res: any) {
+  async handleUpload(req: any) {
     try {
       if (!req.files || req.files.length === 0) {
         return {

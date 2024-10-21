@@ -8,7 +8,7 @@ class ImageController {
   // Hàm xử lý upload ảnh
   async uploadImages(req: any, res: any) {
     try {
-      const response = await ImageService.handleUpload(req, res)
+      const response = await ImageService.handleUpload(req)
 
       if (!response.success) {
         return res.status(HttpStatusCode.BAD_REQUEST).json(response)
