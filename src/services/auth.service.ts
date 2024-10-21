@@ -1,12 +1,11 @@
 import { ROLE } from '~/constants/role'
-
 const bcrypt = require('bcrypt')
 const db = require('../models')
 const { generateToken } = require('../config/generateToken')
 
-class AuthService {
-  constructor() {}
+const TOKEN_EXPIRY = 2 * 24 * 60 * 60 * 1000
 
+class AuthService {
   hashPassword(password: string) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(12))
   }
@@ -15,8 +14,17 @@ class AuthService {
     return bcrypt.compareSync(password, hashedPassword)
   }
 
+  setTokenCookie(res: any, token: string) {
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: TOKEN_EXPIRY
+    })
+  }
+
   async login({ body }: { body: any }, res: any) {
     const { email, password, phone } = body
+
     try {
       const user = await db.User.findOne({
         where: {
@@ -25,42 +33,21 @@ class AuthService {
       })
 
       if (!user) {
-        return {
-          success: false,
-          message: 'Email hoặc số điện thoại không tồn tại trong hệ thống'
-        }
+        return { success: false, message: 'Email hoặc số điện thoại không tồn tại trong hệ thống' }
       }
 
       if (!user.password) {
-        return {
-          success: false,
-          message: 'Người dùng đã đăng ký bằng Google/Facebook. Vui lòng đăng nhập bằng Google/Facebook.'
-        }
+        return { success: false, message: 'Vui lòng đăng nhập bằng Google/Facebook.' }
       }
 
-      const isPasswordValid = this.comparePassword(password, user.password)
-
-      if (!isPasswordValid) {
-        return {
-          success: false,
-          message: 'Mật khẩu không chính xác',
-          token: null
-        }
+      if (!this.comparePassword(password, user.password)) {
+        return { success: false, message: 'Mật khẩu không chính xác' }
       }
+
       const token = generateToken(user.id)
+      this.setTokenCookie(res, token)
 
-      // Lưu token vào cookie
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 2 * 24 * 60 * 60 * 1000
-      })
-
-      return {
-        success: true,
-        message: 'Đăng nhập thành công',
-        token: token || null
-      }
+      return { success: true, message: 'Đăng nhập thành công', token }
     } catch (error: any) {
       throw new Error(error.message)
     }
@@ -68,20 +55,15 @@ class AuthService {
 
   async register({ body }: { body: any }, res: any) {
     const { email, password, phone, name, avatar } = body
+
     try {
       const userExists = await db.User.findOne({
-        where: {
-          [db.Sequelize.Op.or]: [{ email }, { phone }]
-        }
+        where: { [db.Sequelize.Op.or]: [{ email }, { phone }] }
       })
 
       if (userExists) {
         const existingField = userExists.email === email ? 'Email' : 'Số điện thoại'
-        return {
-          success: false,
-          message: `${existingField} đã tồn tại trong hệ thống`,
-          token: null
-        }
+        return { success: false, message: `${existingField} đã tồn tại trong hệ thống` }
       }
 
       const user = await db.User.create({
@@ -94,18 +76,9 @@ class AuthService {
       })
 
       const token = generateToken(user.id)
+      this.setTokenCookie(res, token)
 
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 2 * 24 * 60 * 60 * 1000 // 2 ngày
-      })
-
-      return {
-        success: true,
-        message: 'Đăng ký thành công',
-        token: token || null
-      }
+      return { success: true, message: 'Đăng ký thành công', token }
     } catch (error: any) {
       throw new Error(error.message)
     }
