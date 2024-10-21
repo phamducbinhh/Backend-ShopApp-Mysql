@@ -12,6 +12,7 @@ const ImageController = require('./upload.controllers')
 const ProductImageController = require('./productImage.controllers')
 const CartController = require('./cart.controllers')
 const CartItemController = require('./cartItem.controllers')
+const AuthController = require('./auth.controllers')
 
 module.exports = {
   ProductController,
@@ -27,5 +28,6 @@ module.exports = {
   ImageController,
   ProductImageController,
   CartController,
-  CartItemController
+  CartItemController,
+  AuthController
 }

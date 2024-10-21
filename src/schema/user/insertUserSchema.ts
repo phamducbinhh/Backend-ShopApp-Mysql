@@ -1,3 +1,5 @@
+import { ROLE } from "~/constants/role"
+
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 
@@ -27,9 +29,9 @@ class InsertUserSchema {
       email: Joi.string().email().required(), // Email là chuỗi hợp lệ và bắt buộc
       password: Joi.string().min(6).required(), // Mật khẩu tối thiểu 6 ký tự và bắt buộc
       name: Joi.string().required(), // Tên là chuỗi và bắt buộc
-      role: Joi.number().integer().required(), // Vai trò là số nguyên và bắt buộc
-      avatar: Joi.string().uri().allow(''), // Đường dẫn ảnh hợp lệ hoặc có thể là chuỗi rỗng
-      phone: Joi.number().integer().optional() // Số điện thoại là số nguyên và tùy chọn
+      role: Joi.number().integer().min(ROLE.USER).required(), // Vai trò là số nguyên và bắt buộc
+      avatar: Joi.string().uri().allow('').optional(), // Đường dẫn ảnh hợp lệ hoặc có thể là chuỗi rỗng
+      phone: Joi.string().optional() // Số điện thoại là số nguyên và tùy chọn
     })
 
     return schema.validate(data)

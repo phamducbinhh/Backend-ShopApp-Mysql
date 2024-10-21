@@ -12,6 +12,7 @@ const bannerDetailRouter = require('./banner_detail.routes')
 const uploadRouter = require('./upload.routes')
 const cartRouter = require('./cart.routes')
 const cartItemRouter = require('./cartItem.routes')
+const authRouter = require('./auth.routes')
 
 const initRoutes = (app: any): void => {
   app.use('/api/v1/products', productRouter)
@@ -28,6 +29,7 @@ const initRoutes = (app: any): void => {
   app.use('/api/v1/upload-images', uploadRouter)
   app.use('/api/v1/cart', cartRouter)
   app.use('/api/v1/cart-items', cartItemRouter)
+  app.use('/api/v1/auth', authRouter)
 }
 
 module.exports = initRoutes

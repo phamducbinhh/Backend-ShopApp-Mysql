@@ -12,6 +12,7 @@ const ImageService = require('./upload.service')
 const ProductImageService = require('./productImage.service')
 const CartService = require('./cart.service')
 const CartItemService = require('./cart_item.service')
+const AuthService = require('./auth.service')
 
 module.exports = {
   ProductService,
@@ -27,5 +28,6 @@ module.exports = {
   ImageService,
   ProductImageService,
   CartService,
-  CartItemService
+  CartItemService,
+  AuthService
 }
