@@ -1,3 +1,5 @@
+import { ROLE } from "~/constants/role"
+
 const bcrypt = require('bcrypt')
 const db = require('../models')
 const { generateToken } = require('../config/generateToken')
@@ -14,16 +16,18 @@ class AuthService {
   }
 
   async login({ body }: { body: any }, res: any) {
-    const { email, password } = body
+    const { email, password, phone } = body
     try {
       const user = await db.User.findOne({
-        where: { email }
+        where: {
+          [db.Sequelize.Op.or]: [email ? { email } : null, phone ? { phone } : null]
+        }
       })
 
       if (!user) {
         return {
           success: false,
-          message: 'Email không tồn tại trong hệ thống'
+          message: 'Email hoặc số điện thoại không tồn tại trong hệ thống'
         }
       }
 
@@ -55,6 +59,49 @@ class AuthService {
       return {
         success: true,
         message: 'Đăng nhập thành công',
+        token: token || null
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+
+  async register({ body }: { body: any }, res: any) {
+    const { email, password, phone } = body
+    try {
+      const userExists = await db.User.findOne({
+        where: {
+          [db.Sequelize.Op.or]: [{ email }, { phone }]
+        }
+      })
+
+      if (userExists) {
+        const existingField = userExists.email === email ? 'Email' : 'Số điện thoại'
+        return {
+          success: false,
+          message: `${existingField} đã tồn tại trong hệ thống`,
+          token: null
+        }
+      }
+
+      const user = await db.User.create({
+        email,
+        phone,
+        role: ROLE.USER,
+        password: this.hashPassword(password)
+      })
+
+      const token = generateToken(user.id)
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 2 * 24 * 60 * 60 * 1000 // 2 ngày
+      })
+
+      return {
+        success: true,
+        message: 'Đăng ký thành công',
         token: token || null
       }
     } catch (error: any) {

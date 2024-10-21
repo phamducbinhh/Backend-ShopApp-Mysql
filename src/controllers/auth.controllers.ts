@@ -15,6 +15,16 @@ class AuthController {
       return handleError(res, error)
     }
   }
+  async register(req: any, res: any) {
+    try {
+      const response = await AuthService.register({ body: req.body }, res)
+      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+
+      return res.status(HttpStatusCode.SUCCESS).json(response)
+    } catch (error: any) {
+      return handleError(res, error)
+    }
+  }
 
   async logout(req: any, res: any) {
     try {
