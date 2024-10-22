@@ -6,14 +6,15 @@ const cookieParser = require('cookie-parser')
 const initRoutes = require('./routes')
 require('dotenv').config()
 
-const allowedOrigins = ['http://localhost:3002']
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true
-  })
-)
+const corsOptions = {
+  origin: ['https://local.oeg.vn'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  preflightContinue: false,
+  credentials: true,
+  optionsSuccessStatus: 204
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
