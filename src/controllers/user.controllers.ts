@@ -69,6 +69,37 @@ class UserController {
       return handleError(res, error)
     }
   }
+
+  async getCurrent(req: any, res: any) {
+    const { id } = req.user
+    try {
+      const response = await UserService.getCurrentUser(id)
+
+      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+
+      return res.status(HttpStatusCode.SUCCESS).json(response)
+    } catch (error: any) {
+      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: error.message
+      })
+    }
+  }
+  async updateCurrent(req: any, res: any) {
+    const { id } = req.user
+    try {
+      const response = await UserService.updateCurrentUser(id, req.body)
+
+      if (response.success === false) return res.status(HttpStatusCode.NOT_FOUND).json(response)
+
+      return res.status(HttpStatusCode.SUCCESS).json(response)
+    } catch (error: any) {
+      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: error.message
+      })
+    }
+  }
 }
 
 module.exports = new UserController()
