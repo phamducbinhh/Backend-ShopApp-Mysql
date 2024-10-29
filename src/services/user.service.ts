@@ -115,7 +115,7 @@ class UserService {
     try {
       const response = await db.User.findOne({
         where: { id },
-        attributes: ['id', 'name', 'email', 'avatar', 'role' ,'phone']
+        attributes: ['id', 'name', 'email', 'avatar', 'role', 'phone']
       })
 
       return {
